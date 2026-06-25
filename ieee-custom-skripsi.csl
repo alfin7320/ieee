@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="sort-only" default-locale="id">
+<info>
+    <title>IEEE - Custom Skripsi (ID)</title>
+    <title-short>IEEE-Custom-ID</title-short>
+    <id>http://www.zotero.org/styles/ieee-custom-skripsi-id</id>
+    <link href="http://www.zotero.org/styles/ieee-custom" rel="template"/>
+    <link href="https://journals.ieeeauthorcenter.ieee.org/your-role-in-article-production/ieee-editorial-style-manual/" rel="documentation"/>
+    <author>
+      <name>Michael Berkowitz</name>
+      <email>mberkowi@gmu.edu</email>
+    </author>
+    <category citation-format="numeric"/>
+    <category field="engineering"/>
+    <category field="generic-base"/>
+    <summary>IEEE numeric style modified to follow an Indonesian institution's thesis-writing guideline: surname-first author names, alphabetically sorted bibliography (numbers still reflect order of first citation in text), Author-Year-Title ordering, and custom conference-paper and internet-source formats.</summary>
+    <updated>2026-06-25T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+  <locale xml:lang="en">
+    <date form="text">
+      <date-part name="month" form="short" suffix=" "/>
+      <date-part name="day" form="numeric-leading-zeros" suffix=", "/>
+      <date-part name="year"/>
+    </date>
+    <terms>
+      <term name="chapter" form="short">ch.</term>
+      <term name="chapter-number" form="short">ch.</term>
+      <term name="presented at">presented at the</term>
+      <term name="available at">available</term>
+      <term name="month-06" form="short">Jun.</term>
+      <term name="month-07" form="short">Jul.</term>
+      <term name="month-09" form="short">Sep.</term>
+    </terms>
+  </locale>
+  <!--
+    Indonesian locale overrides, used because default-locale="id" above.
+    These control the words/joiners the guideline asks for ("dan", "et all",
+    "Tersedia", "Online") plus full Indonesian month names, since the
+    conference-paper and internet-source formats below need full month
+    names (e.g. "April 8", "30 September 2005").
+  -->
+  <locale xml:lang="id">
+    <terms>
+      <term name="and">dan</term>
+      <term name="et-al">et all</term>
+      <term name="online" form="long">Online</term>
+      <term name="available at">Tersedia</term>
+      <term name="accessed">Diakses</term>
+      <term name="month-01" form="long">Januari</term>
+      <term name="month-02" form="long">Februari</term>
+      <term name="month-03" form="long">Maret</term>
+      <term name="month-04" form="long">April</term>
+      <term name="month-05" form="long">Mei</term>
+      <term name="month-06" form="long">Juni</term>
+      <term name="month-07" form="long">Juli</term>
+      <term name="month-08" form="long">Agustus</term>
+      <term name="month-09" form="long">September</term>
+      <term name="month-10" form="long">Oktober</term>
+      <term name="month-11" form="long">November</term>
+      <term name="month-12" form="long">Desember</term>
+    </terms>
+  </locale>
+  <!-- Macros -->
+  <macro name="status">
+    <choose>
+      <if variable="page issue volume" match="none">
+        <text variable="status" text-case="capitalize-first" suffix="" font-weight="bold"/>
+      </if>
+    </choose>
+  </macro>
+  <macro name="edition">
+    <choose>
+      <if type="bill book chapter graphic legal_case legislation motion_picture paper-conference report song" match="any">
+        <choose>
+          <if is-numeric="edition">
+            <group delimiter=" ">
+              <number variable="edition" form="ordinal"/>
+              <text term="edition" form="short"/>
+            </group>
+          </if>
+          <else>
+            <text variable="edition" text-case="capitalize-first" suffix="."/>
+          </else>
+        </choose>
+      </if>
+    </choose>
+  </macro>
+  <!-- Original full date macro (kept for reference/fallback use; the
+       bibliography below mostly uses the simpler "year-only" macro
+       because the guideline puts a bare year right after the author). -->
+  <macro name="issued">
+    <choose>
+      <if type="article-journal report" match="any">
+        <date variable="issued">
+          <date-part name="month" form="short" suffix=" "/>
+          <date-part name="year" form="long"/>
+        </date>
+      </if>
+      <else-if type="bill book chapter graphic legal_case legislation song thesis" match="any">
+        <date variable="issued">
+          <date-part name="year" form="long"/>
+        </date>
+      </else-if>
+      <else-if type="paper-conference" match="any">
+        <date variable="issued">
+          <date-part name="month" form="short"/>
+          <date-part name="year" prefix=" "/>
+        </date>
+      </else-if>
+      <else-if type="motion_picture" match="any">
+        <date variable="issued" form="text" prefix="(" suffix=")"/>
+      </else-if>
+      <else>
+        <date variable="issued" form="text"/>
+      </else>
+    </choose>
+  </macro>
+  <!-- NEW: bare year, used right after the author per the guideline's
+       "Author. Year. Title..." ordering -->
+  <macro name="year-only">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+  <!-- Author names: surname first ("Nama belakang, nama depan"), with
+       initialize="false" so the writer's choice of full given name or
+       abbreviated initials (the guideline says "dapat disingkat" = optional)
+       is preserved exactly as entered, rather than forced into initials. -->
+  <macro name="author">
+    <names variable="author">
+      <name and="text" et-al-min="3" et-al-use-first="1"
+            name-as-sort-order="all" sort-separator=", " initialize="false"/>
+      <label form="short" prefix=", " text-case="capitalize-first"/>
+      <et-al font-style="italic"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text macro="director"/>
+      </substitute>
+    </names>
+  </macro>
+  <macro name="editor">
+    <names variable="editor">
+      <name name-as-sort-order="all" sort-separator=", " initialize="false" delimiter=", " and="text"/>
+      <label form="short" prefix=", " text-case="capitalize-first"/>
+    </names>
+  </macro>
+  <macro name="director">
+    <names variable="director">
+      <name and="text" et-al-min="7" et-al-use-first="1" name-as-sort-order="all" sort-separator=", " initialize="false"/>
+      <et-al font-style="italic"/>
+    </names>
+  </macro>
+  <macro name="locators">
+    <group delimiter=", ">
+      <text macro="edition"/>
+      <group delimiter=" ">
+        <text term="volume" form="short"/>
+        <number variable="volume" form="numeric"/>
+      </group>
+      <group delimiter=" ">
+        <number variable="number-of-volumes" form="numeric"/>
+        <text term="volume" form="short" plural="true"/>
+      </group>
+      <group delimiter=" ">
+        <text term="issue" form="short"/>
+        <number variable="issue" form="numeric"/>
+      </group>
+    </group>
+  </macro>
+  <!-- NEW: "38(3)" style volume(issue) used for journal articles -->
+  <macro name="journal-locator">
+    <group>
+      <number variable="volume" form="numeric"/>
+      <text variable="issue" prefix="(" suffix=")"/>
+    </group>
+  </macro>
+  <!-- NEW: "(229-237)" style page range used for conference papers -->
+  <macro name="conference-page">
+    <text variable="page" prefix="(" suffix=")"/>
+  </macro>
+  <!-- Title: italic for book-like works (per "judul buku dicetak miring"),
+       PLAIN (no italic, no quotes) for thesis/report/webpage (per "judul
+       karya tidak dicetak miring atau garis bawah"), quoted otherwise
+       (journal articles etc., per "judul artikel ditulis tanda petik"). -->
+  <macro name="title">
+    <choose>
+      <if type="bill book graphic legal_case legislation motion_picture song standard software" match="any">
+        <text variable="title" font-style="italic"/>
+      </if>
+      <else-if type="thesis report webpage post post-weblog" match="any">
+        <text variable="title"/>
+      </else-if>
+      <else>
+        <text variable="title" quotes="true"/>
+      </else>
+    </choose>
+  </macro>
+  <!-- "Kota : Penerbit" with spaces around the colon -->
+  <macro name="publisher">
+    <choose>
+      <if type="bill book chapter graphic legal_case legislation motion_picture paper-conference song" match="any">
+        <group delimiter=" : ">
+          <text variable="publisher-place"/>
+          <text variable="publisher"/>
+        </group>
+      </if>
+      <else>
+        <group delimiter=", ">
+          <text variable="publisher"/>
+          <text variable="publisher-place"/>
+        </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="event">
+    <choose>
+      <if type="paper-conference speech" match="any">
+        <choose>
+          <if variable="container-title" match="any">
+            <group delimiter=" ">
+              <text term="in"/>
+              <text variable="container-title" font-style="italic"/>
+            </group>
+          </if>
+          <else>
+            <group delimiter=" ">
+              <text term="presented at"/>
+              <text variable="event"/>
+            </group>
+          </else>
+        </choose>
+      </if>
+    </choose>
+  </macro>
+  <!-- "[Online] Tersedia: URL. [tanggal akses]" -->
+  <macro name="access">
+    <group delimiter=" ">
+      <group prefix="[" suffix="]">
+        <text term="online" text-case="capitalize-first"/>
+      </group>
+      <group delimiter=": " suffix=".">
+        <text term="available at" text-case="capitalize-first"/>
+        <text variable="URL"/>
+      </group>
+      <date variable="accessed" prefix="[" suffix="]">
+        <date-part name="day" suffix=" "/>
+        <date-part name="month" form="long" suffix=" "/>
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+  <macro name="page">
+    <choose>
+      <if type="article-journal" variable="number" match="all">
+        <group delimiter=" ">
+          <text value="Art."/>
+          <text term="issue" form="short"/>
+          <text variable="number"/>
+        </group>
+      </if>
+      <else>
+        <group delimiter=" ">
+          <label variable="page" form="short"/>
+          <text variable="page"/>
+        </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="citation-locator">
+    <group delimiter=" ">
+      <choose>
+        <if locator="page">
+          <label variable="locator" form="short"/>
+        </if>
+        <else>
+          <label variable="locator" form="short" text-case="capitalize-first"/>
+        </else>
+      </choose>
+      <text variable="locator"/>
+    </group>
+  </macro>
+  <macro name="geographic-location">
+    <group delimiter=", " suffix=".">
+      <choose>
+        <if variable="publisher-place">
+          <text variable="publisher-place" text-case="title"/>
+        </if>
+        <else-if variable="event-place">
+          <text variable="event-place" text-case="title"/>
+        </else-if>
+      </choose>
+    </group>
+  </macro>
+  <macro name="collection">
+    <choose>
+      <if variable="collection-title" match="any">
+        <text term="in" suffix=" "/>
+        <group delimiter=", " suffix=". ">
+          <text variable="collection-title"/>
+          <text variable="collection-number" prefix="no. "/>
+          <text variable="volume" prefix="vol. "/>
+        </group>
+      </if>
+    </choose>
+  </macro>
+  <!-- Citation: unchanged. Numbers are still assigned by order of FIRST
+       appearance in the document (citeproc does this automatically); this
+       sort key only orders multiple refs cited together, e.g. [1, 3, 5]. -->
+  <citation>
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout delimiter=", ">
+      <group prefix="[" suffix="]" delimiter=", ">
+        <text variable="citation-number"/>
+        <text macro="citation-locator"/>
+      </group>
+    </layout>
+  </citation>
+  <!-- Bibliography -->
+  <bibliography entry-spacing="0" second-field-align="flush">
+    <!--
+      Sorted alphabetically by author (per the guideline's "diurut
+      berdasarkan abjad"). The [N] shown before each entry is still the
+      number assigned by order of first citation in the text (per the
+      guideline's numbering rule), so the bracket numbers will usually
+      NOT run 1, 2, 3... straight down this alphabetized list - e.g. you
+      might see [3] Adi..., [1] Budi..., [5] Citra... That is the literal
+      result of combining "numbered by appearance" + "sorted by abjad".
+      If you actually want the simpler/standard IEEE behavior (list in
+      the same order as first-cited, numbers run in order down the list),
+      delete the <sort> block below.
+    -->
+    <sort>
+      <key macro="author"/>
+      <key variable="title"/>
+    </sort>
+    <layout>
+      <text variable="citation-number" prefix="[" suffix="] "/>
+      <choose>
+        <!-- Prosiding / Conference paper: comma-separated throughout,
+             per the guideline's own example. -->
+        <if type="paper-conference speech" match="any">
+          <group delimiter=", " suffix=".">
+            <text macro="author"/>
+            <date variable="issued">
+              <date-part name="year"/>
+            </date>
+            <text variable="title"/>
+            <group delimiter=" ">
+              <text variable="container-title" font-style="italic"/>
+              <text macro="conference-page"/>
+            </group>
+            <text macro="locators"/>
+            <text variable="event-place"/>
+            <date variable="issued">
+              <date-part name="month" form="long"/>
+              <date-part name="day" prefix=" "/>
+            </date>
+          </group>
+        </if>
+        <!-- Everything else: "Author. Year. Title. ..." -->
+        <else>
+          <text macro="author" suffix=". "/>
+          <text macro="year-only" suffix=". "/>
+          <choose>
+            <if type="article-journal">
+              <text variable="title" quotes="true" suffix=". "/>
+              <text variable="container-title" font-style="italic" suffix=". "/>
+              <group suffix=".">
+                <text macro="journal-locator"/>
+                <text variable="page" prefix=", "/>
+              </group>
+            </if>
+            <else-if type="book">
+              <text variable="title" font-style="italic" suffix=". "/>
+              <text macro="publisher" suffix="."/>
+            </else-if>
+            <else-if type="thesis report" match="any">
+              <text variable="title" suffix=". "/>
+              <group delimiter=" : " suffix=".">
+                <text variable="publisher"/>
+                <text variable="genre"/>
+              </group>
+            </else-if>
+            <else-if type="webpage post post-weblog" match="any">
+              <text variable="title" suffix=". "/>
+              <text macro="access"/>
+            </else-if>
+            <else-if type="chapter">
+              <text variable="title" quotes="true" suffix=". "/>
+              <group delimiter=" " suffix=". ">
+                <text term="in"/>
+                <text variable="container-title" font-style="italic"/>
+              </group>
+              <text macro="publisher" suffix="."/>
+            </else-if>
+            <else>
+              <text variable="title" quotes="true" suffix=". "/>
+              <text variable="container-title" font-style="italic" suffix=". "/>
+              <text macro="publisher" suffix="."/>
+            </else>
+          </choose>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
